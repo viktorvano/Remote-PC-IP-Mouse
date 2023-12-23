@@ -3,8 +3,11 @@ package eu.cyberpunktech.remote.mouse;
 import static eu.cyberpunktech.remote.mouse.Variables.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -22,7 +25,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
-    private Sensor sensorMagneticField, sensorGravity;
+    private Sensor sensorGravity;
     private double xA, yA, zA;
     private Button buttonDoubleClick, buttonLeft, buttonRight;
     private TextView tvHeading;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sender sender;
     private boolean doubleClick;
     private Switch switchActive;
+    private Button buttonConfiguration;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         buttonRight = findViewById(R.id.buttonRight);
         tvHeading = findViewById(R.id.tvHeading);
         switchActive = findViewById(R.id.switchActive);
+        buttonConfiguration = findViewById(R.id.buttonConfig);
+        constraintLayout = findViewById(R.id.constraintLayout);
         oldTime = System.currentTimeMillis();
+
+        loadData();
+        int rgb = 255;
+        rgb = (rgb << 8) + red;
+        rgb = (rgb << 8) + green;
+        rgb = (rgb << 8) + blue;
+        constraintLayout.setBackgroundColor(rgb);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -59,18 +73,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             activity.finish();
         }
 
-        sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if(sensorMagneticField == null)
-        {
-            MainActivity activity = this;
-            Toast.makeText(activity, "Magnetic sensor is not available.", Toast.LENGTH_LONG).show();
-            activity.finish();
-        }
-
         buttonDoubleClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     doubleClick = true;
+            }
+        });
+
+        buttonConfiguration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -102,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(this, sensorGravity, SensorManager.SENSOR_DELAY_UI);
-        sensorManager.registerListener(this, sensorMagneticField, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -121,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         currentTime = System.currentTimeMillis();
         if((currentTime - oldTime) > 100)
         {
-            tvHeading.setText("Pitch: " + (int)(pitch*radiansToDegrees) + "°\nRoll: " + (int)(roll*radiansToDegrees) + "°");
+            tvHeading.setText("Pitch: " + (int)(pitch*radiansToDegrees) +
+                    "°\nRoll: " + (int)(roll*radiansToDegrees) + "°\nIP: " + serverIP);
             double normalizedPitch, normalizedRoll;
             normalizedPitch = (pitch*radiansToDegrees) / pitchRange;
             if(normalizedPitch > 1.0)
@@ -146,5 +161,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 doubleClick = false;
             }
         }
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Variables.CONFIGURATION, MODE_PRIVATE);
+        Variables.serverIP = sharedPreferences.getString(SERVER_IP, "192.168.1.15");
+        Variables.red = sharedPreferences.getInt(COLOR_RED, 255);
+        Variables.green = sharedPreferences.getInt(COLOR_GREEN, 255);
+        Variables.blue = sharedPreferences.getInt(COLOR_BLUE, 255);
     }
 }
