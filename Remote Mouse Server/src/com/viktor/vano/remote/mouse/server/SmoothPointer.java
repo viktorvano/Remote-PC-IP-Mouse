@@ -50,8 +50,8 @@ public class SmoothPointer extends Thread{
                 this.yawArray[i-1] = this.yawArray[i];
             }
 
-            this.pitchArray[filterSize-1] = Variables.pitch;
-            this.yawArray[filterSize-1] = Variables.yaw;
+            this.pitchArray[filterSize-1] = Variables.x;
+            this.yawArray[filterSize-1] = Variables.y;
 
             this.pitch = 0.0;
             this.yaw = 0.0;

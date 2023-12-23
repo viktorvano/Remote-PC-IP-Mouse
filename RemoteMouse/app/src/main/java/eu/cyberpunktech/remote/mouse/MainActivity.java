@@ -123,19 +123,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         {
             tvHeading.setText("Pitch: " + (int)(pitch*radiansToDegrees) + "°\nRoll: " + (int)(roll*radiansToDegrees) + "°");
             double normalizedPitch, normalizedRoll;
-            normalizedPitch = (pitch*radiansToDegrees)/pitchRange;
+            normalizedPitch = (pitch*radiansToDegrees) / pitchRange;
             if(normalizedPitch > 1.0)
                 normalizedPitch = 1.0;
             if(normalizedPitch < -1.0)
                 normalizedPitch = -1.0;
 
-            normalizedRoll = (roll*radiansToDegrees)/ rollRange;
+            normalizedRoll = (roll*radiansToDegrees) / rollRange;
             if(normalizedRoll > 1.0)
                 normalizedRoll = 1.0;
             if(normalizedRoll < -1.0)
                 normalizedRoll = -1.0;
-            sender.setMessage("pitch:" + normalizedPitch +
-                            ",yaw:" + normalizedRoll +
+            sender.setMessage("X:" + normalizedPitch +
+                            ",Y:" + normalizedRoll +
                             ",LMB:" + buttonLeft.isPressed() +
                             ",DoubleClick:" + doubleClick +
                             ",RMB:" + buttonRight.isPressed() +

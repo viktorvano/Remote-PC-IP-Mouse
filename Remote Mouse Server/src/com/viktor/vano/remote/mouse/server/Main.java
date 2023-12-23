@@ -1,7 +1,5 @@
 package com.viktor.vano.remote.mouse.server;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,7 +7,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.awt.*;
 import java.net.DatagramSocket;
