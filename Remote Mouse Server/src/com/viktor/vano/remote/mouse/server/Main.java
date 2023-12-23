@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -38,6 +39,24 @@ public class Main extends Application {
         stage.setMaxWidth(stage.getWidth());
         stage.setMaxHeight(stage.getHeight());
         stage.setResizable(false);
+
+        try
+        {
+            javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("icon.png"));
+            stage.getIcons().add(icon);
+            System.out.println("Icon loaded from IDE...");
+        }catch(Exception e)
+        {
+            try
+            {
+                javafx.scene.image.Image icon = new Image("com/viktor/vano/remote/mouse/server/icon.png");
+                stage.getIcons().add(icon);
+                System.out.println("Icon loaded from exported JAR...");
+            }catch(Exception e1)
+            {
+                System.out.println("Icon failed to load...");
+            }
+        }
 
         labelIP = new Label("");
         labelIP.setLayoutX(50);
