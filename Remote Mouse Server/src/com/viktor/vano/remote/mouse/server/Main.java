@@ -30,7 +30,7 @@ public class Main extends Application {
         pane = new Pane();
 
         Scene scene = new Scene(pane, width, height);
-        stage.setTitle("Remote Mouse Server " + version);
+        stage.setTitle("Remote Mouse " + version);
         stage.setScene(scene);
         stage.show();
         stage.setMinWidth(stage.getWidth());
