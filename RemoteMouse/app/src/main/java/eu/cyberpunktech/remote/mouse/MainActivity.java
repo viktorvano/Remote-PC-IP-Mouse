@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             zA = event.values[2];
         }
 
-        double roll = Math.atan2(-xA,zA);
+        double roll = Math.atan2(xA,zA);
         double pitch = Math.atan2(yA,zA);
 
         currentTime = System.currentTimeMillis();
@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 normalizedRoll = 1.0;
             if(normalizedRoll < -1.0)
                 normalizedRoll = -1.0;
-            sender.setMessage("X:" + normalizedPitch +
-                            ",Y:" + normalizedRoll +
+            sender.setMessage("X:" + normalizedRoll +
+                            ",Y:" + normalizedPitch +
                             ",LMB:" + buttonLeft.isPressed() +
                             ",DoubleClick:" + doubleClick +
                             ",RMB:" + buttonRight.isPressed() +

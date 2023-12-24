@@ -7,6 +7,7 @@ public class Variables {
     public static final int height = 250;
     public static boolean mouseActive = false;
     public static final int port = 8080;
-    public static double x, y;
+    public static double y, x;
     public static int noCommandCount = 0;
+    public static final Monitor selectedMonitor = new Monitor(0,0,0,0);
 }
