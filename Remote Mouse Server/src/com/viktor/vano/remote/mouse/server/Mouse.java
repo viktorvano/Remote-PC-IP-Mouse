@@ -63,17 +63,17 @@ public class Mouse extends Thread{
         }
     }
 
-    //pitch:0.4098261636144374,yaw:-0.24444444444444444,LMB:false,DoubleClick:false,RMB:false
+    //X:-0.43137706867656694,Y:0.5479462355657322,LMB:false,DoubleClick:false,RMB:false,Active:false
     private void parseMessage(String message)
     {
-        String stringPitch, stringYaw, stringLMB, stringDoubleClick, stringRMB, stringMouseActive;
-        String[] strings = message.split(",yaw:");
-        strings = strings[0].split("pitch:");
-        stringPitch = strings[1];
+        String stringX, stringY, stringLMB, stringDoubleClick, stringRMB, stringMouseActive;
+        String[] strings = message.split(",Y:");
+        strings = strings[0].split("X:");
+        stringX = strings[1];
 
         strings = message.split(",LMB:");
-        strings = strings[0].split(",yaw:");
-        stringYaw = strings[1];
+        strings = strings[0].split(",Y:");
+        stringY = strings[1];
 
         strings = message.split(",DoubleClick:");
         strings = strings[0].split(",LMB:");
@@ -99,8 +99,8 @@ public class Mouse extends Thread{
         }
 
         System.out.println("Parsed message:");
-        System.out.println("Pitch: " + stringPitch);
-        System.out.println("Yaw: " + stringYaw);
+        System.out.println("X: " + stringX);
+        System.out.println("Y: " + stringY);
         System.out.println("LMB: " + stringLMB);
         System.out.println("DoubleClick: " + stringDoubleClick);
         System.out.println("RMB: " + stringRMB);
@@ -109,8 +109,10 @@ public class Mouse extends Thread{
         try{
             if(mouseActive)
             {
-                pitch = Double.parseDouble(stringPitch) * -(1080.0/2) + (1080.0/2);
-                yaw = Double.parseDouble(stringYaw) * (1920.0/2) + (1920.0/2);
+                y = Double.parseDouble(stringY) * -((selectedMonitor.resY - selectedMonitor.startY)/2)
+                        + ((selectedMonitor.resY - selectedMonitor.startY)/2);
+                x = Double.parseDouble(stringX) * -((selectedMonitor.resX - selectedMonitor.startX)/2)
+                        + ((selectedMonitor.resX - selectedMonitor.startX)/2);
                 booleanLMB = Boolean.parseBoolean(stringLMB);
                 booleanDoubleClick = Boolean.parseBoolean(stringDoubleClick);
                 booleanRMB = Boolean.parseBoolean(stringRMB);
@@ -139,9 +141,6 @@ public class Mouse extends Thread{
                     robot.mouseRelease(InputEvent.BUTTON3_MASK);
                     RMB_isPressed = false;
                 }
-
-                //robot.mouseMove((int)yaw, (int)pitch);
-                //System.out.println("\n\n\nMOUSE: " + (int)yaw + ", " + (int)pitch);
             }
         }catch (Exception e)
         {

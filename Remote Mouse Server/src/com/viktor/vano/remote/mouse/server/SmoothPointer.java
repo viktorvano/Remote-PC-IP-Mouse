@@ -6,9 +6,9 @@ import static com.viktor.vano.remote.mouse.server.Variables.*;
 
 public class SmoothPointer extends Thread{
     private boolean active = true;
-    private double[] pitchArray, yawArray;
+    private double[] yArray, xArray;
     private final int filterSize = 40;
-    private double pitch, yaw;
+    private double Y, X;
     private final double smoothingFactor = 0.97;
     private final double newValueWeight = 1.0-smoothingFactor;
     private Robot robot = null;
@@ -22,10 +22,10 @@ public class SmoothPointer extends Thread{
             System.out.println("Failed to create a Robot...");
             System.exit(-22);
         }
-        this.pitch = 0.0;
-        this.yaw = 0.0;
-        this.pitchArray = new double[filterSize];
-        this.yawArray = new double[filterSize];
+        this.Y = 0.0;
+        this.X = 0.0;
+        this.yArray = new double[filterSize];
+        this.xArray = new double[filterSize];
     }
 
     public void stopSmoothPointer()
@@ -46,31 +46,29 @@ public class SmoothPointer extends Thread{
 
             for(int i=1; i<this.filterSize; i++)
             {
-                this.pitchArray[i-1] = this.pitchArray[i];
-                this.yawArray[i-1] = this.yawArray[i];
+                this.yArray[i-1] = this.yArray[i];
+                this.xArray[i-1] = this.xArray[i];
             }
 
-            this.pitchArray[filterSize-1] = Variables.pitch;
-            this.yawArray[filterSize-1] = Variables.yaw;
+            this.yArray[filterSize-1] = Variables.y;
+            this.xArray[filterSize-1] = Variables.x;
 
-            this.pitch = 0.0;
-            this.yaw = 0.0;
+            this.Y = 0.0;
+            this.X = 0.0;
             for(int i=0; i<this.filterSize; i++)
             {
-                this.pitch += this.pitchArray[i];
-                this.yaw += this.yawArray[i];
+                this.Y += this.yArray[i];
+                this.X += this.xArray[i];
             }
-            this.pitch /= (double)filterSize;
-            this.yaw /= (double)filterSize;
-            //this.pitch = this.smoothingFactor*this.pitch + this.newValueWeight*Variables.pitch;
-            //this.yaw = this.smoothingFactor*this.yaw + this.newValueWeight*Variables.yaw;
+            this.Y /= (double)filterSize;
+            this.X /= (double)filterSize;
 
             noCommandCount++;
             if(noCommandCount > 300)
                 mouseActive = false;
 
             if(mouseActive)
-                robot.mouseMove((int)this.yaw, (int)this.pitch);
+                robot.mouseMove((int)this.X, (int)this.Y);
         }
     }
 }

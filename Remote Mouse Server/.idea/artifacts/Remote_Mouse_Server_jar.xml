@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Remote Mouse Server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Remote_Mouse_Server_jar</output-path>
+    <root id="archive" name="Remote Mouse Server.jar">
+      <element id="module-output" name="Remote Mouse Server" />
+    </root>
+  </artifact>
+</component>
