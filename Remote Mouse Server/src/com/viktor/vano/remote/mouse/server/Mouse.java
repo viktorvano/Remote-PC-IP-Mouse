@@ -63,7 +63,7 @@ public class Mouse extends Thread{
         }
     }
 
-    //X:0.4098261636144374,Y:-0.24444444444444444,LMB:false,DoubleClick:false,RMB:false
+    //X:-0.43137706867656694,Y:0.5479462355657322,LMB:false,DoubleClick:false,RMB:false,Active:false
     private void parseMessage(String message)
     {
         String stringX, stringY, stringLMB, stringDoubleClick, stringRMB, stringMouseActive;

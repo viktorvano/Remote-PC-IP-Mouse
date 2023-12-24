@@ -109,7 +109,31 @@ public class Main extends Application {
             }
             x++;
         }
-        //TODO: add All Monitors to List
+
+        Monitor allMonitors = new Monitor(monitors.get(0).startX, monitors.get(0).startY, monitors.get(0).resX, monitors.get(0).resY);
+        for(Monitor monitor : monitors)
+        {
+            if(monitor.startX < allMonitors.startX)
+            {
+                allMonitors.startX = monitor.startX;
+            }
+
+            if(monitor.startY < allMonitors.startY)
+            {
+                allMonitors.startY = monitor.startY;
+            }
+
+            if(monitor.resX > allMonitors.resX)
+            {
+                allMonitors.resX = monitor.resX;
+            }
+
+            if(monitor.resY > allMonitors.resY)
+            {
+                allMonitors.resY = monitor.resY;
+            }
+        }
+        monitors.add(allMonitors);
 
         radioButtons[0].setSelected(true);
         selectMonitor(0);
