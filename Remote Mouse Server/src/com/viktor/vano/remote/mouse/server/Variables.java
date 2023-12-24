@@ -2,7 +2,7 @@ package com.viktor.vano.remote.mouse.server;
 
 public class Variables {
 
-    public static final String version = "v20231223";
+    public static final String version = "v20231224";
     public static final int width = 400;
     public static final int height = 250;
     public static boolean mouseActive = false;

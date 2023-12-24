@@ -4,6 +4,7 @@ import static eu.cyberpunktech.remote.mouse.Variables.*;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,6 +27,8 @@ public class ConfigurationActivity extends AppCompatActivity {
     private final int minOffset = 32;
     private ConstraintLayout constraintLayout;
 
+    private TextView textViewAppVersion, textViewDownload;
+
     private final String backupServerIP = serverIP;
 
     @Override
@@ -34,6 +38,19 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         editTextServerIP = findViewById(R.id.editTextIP);
         buttonSave = findViewById(R.id.buttonSave);
+        textViewAppVersion = findViewById(R.id.textViewVersion);
+        textViewDownload = findViewById(R.id.textViewDownload);
+
+        textViewAppVersion.setText("App Version " + BuildConfig.VERSION_NAME);
+
+        textViewDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uriUrl = Uri.parse("https://github.com/viktorvano/Remote-PC-IP-Mouse/releases");
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }
+        });
 
         editTextServerIP.setText(serverIP);
         buttonSave.setOnClickListener(new View.OnClickListener() {
